@@ -191,11 +191,15 @@ YAML file like this:
 
 ```yaml
 on:
-    schedule:
-        # GitHub Action schedules are specified in GMT;
-        # hours 11-22 correspond to 6am-4pm US Eastern time
-        # (for half the year)
-        cron: '0,15,30,45 11-22 * * 1-5'
+  # Workflow dispatch allows you to run the GitHub Action manually
+  # manually / upon demand
+  workflow_dispatch:
+
+  schedule:
+    # GitHub Action schedules are specified in GMT;
+    # hours 11-22 correspond to 6am-4pm US Eastern time
+    # (for half the year)
+    - cron: '0,15,30,45 11-22 * * 1-5'
 ```
 
 You can use the GitHub Secrets functionality to store the Verkada API
