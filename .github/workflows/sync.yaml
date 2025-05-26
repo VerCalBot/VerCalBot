@@ -1,0 +1,34 @@
+name: Synchronize Verkada door exception calendars to a target Google Calendar
+
+on: workflow_dispatch
+
+permissions:
+  contents: read
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.13"
+
+      - name: Install dependencies
+        run: pip install -r src/requirements.txt
+
+      - name: Write google-creds.json from secret
+        run: echo "${{ secrets.GOOGLE_CLOUD_CRED_JSON_BASE64 }}" | base64 -d > google-creds.json
+
+      - name: Run the synchronization
+        env:
+          VERKADA_API_KEY: ${{ secrets.VERKADA_API_KEY }}
+        run: |
+          python src/main.py \
+              --verbose \
+              --config /path/to/your/config.ini \
+              --google-creds google-creds.json
