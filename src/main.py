@@ -31,6 +31,13 @@ def setup_cli():
                         required=True,
                         help='Google credentials JSON file')
 
+    default_val = os.environ.get("GOOGLE_CALENDAR_ID", None)
+    required_val = False if default_val else True
+    parser.add_argument('--google-calendar-id',
+                        default=default_val,
+                        required=required_val,
+                        help='Google Calendar ID')
+
     # TODO: This functionality is currently unimplemented.
     # Intent: Load the "regular" schedule from a JSON file because
     # -- as of May 2025 -- there's no Verkada API to download that
@@ -142,7 +149,7 @@ def main():
     # Get a dictionary of door names, each containing a sorted list of
     # events starting from 5 days ago.
     google_service = GoogleCalendar.login(args)
-    google_events = GoogleCalendar.download(google_service, config)
+    google_events = GoogleCalendar.download(google_service, args, config)
 
     verkada_service = Verkada.login(args)
     # Get a listing of sites (which contain timezone information).
@@ -184,10 +191,10 @@ def main():
         # Update the calendar
         for event in to_delete:
             logging.debug(event)
-            GoogleCalendar.delete(event, google_service, config)
+            GoogleCalendar.delete(event, google_service, args, config)
         for event in to_add:
             logging.debug(event)
-            GoogleCalendar.add(event, google_service, config)
+            GoogleCalendar.add(event, google_service, args, config)
         logging.info("Finished synchronizing Google calendar and Verkada calendars")
 
 if __name__ == "__main__":
