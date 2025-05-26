@@ -16,7 +16,7 @@ def login(args):
     return build("calendar", "v3", credentials=creds,
                  cache_discovery=False)
 
-def download(service, config):
+def download(service, args, config):
     first_date = datetime.combine(config['first date'],
                                   time(0, 0, 0),
                                   tzinfo=timezone.utc).isoformat()
@@ -30,7 +30,7 @@ def download(service, config):
     while True:
         events_result = (
             service.events()
-            .list(calendarId=config['google calendar id'],
+            .list(calendarId=args.google_calendar_id,
                   timeMin=first_date,
                   timeMax=last_date,
                   # Expand recurring events into separate instances rather
@@ -68,7 +68,7 @@ def download(service, config):
 
     return output
 
-def add(verkada_event, service, config):
+def add(verkada_event, service, args, config):
     logging.info(f"Adding Google Calendar event: {verkada_event['name']} / {verkada_event['door_status']}, starting {verkada_event['start_time']}")
 
     color = config[f'color {verkada_event["door_status"]}']
@@ -85,11 +85,11 @@ def add(verkada_event, service, config):
         "colorId": color,
     }
 
-    service.events().insert(calendarId=config['google calendar id'],
+    service.events().insert(calendarId=args.google_calendar_id,
                             body=google_event).execute()
 
-def delete(google_event, service, config):
+def delete(google_event, service, args, config):
     logging.info(f"Removing Google Calendar event: {google_event['summary']} / {google_event['description']}, starting {google_event['start']}")
 
-    service.events().delete(calendarId=config['google calendar id'],
+    service.events().delete(calendarId=args.google_calendar_id,
                             eventId=google_event["id"]).execute()

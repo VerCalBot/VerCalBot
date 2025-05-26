@@ -27,6 +27,7 @@ jobs:
       - name: Run the synchronization
         env:
           VERKADA_API_KEY: ${{ secrets.VERKADA_API_KEY }}
+          GOOGLE_CALENDAR_ID: ${{ secrets.GOOGLE_CALENDAR_ID }}
         run: |
           python src/main.py \
               --verbose \

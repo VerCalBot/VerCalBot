@@ -133,6 +133,10 @@ following command line arguments:
 
 * `--config FILE`: the path name to the INI config file.
 * `--google-creds`: the path name to the Google credentials file.
+* `--google-calendar-id`: the ID of the Google Calendar to synchronize.
+  * **NOTE:** Alternatively, this value can be passed via the
+    `GOOGLE_CALENDAR_ID` environment variable (so that it is not visible
+    in process listings).
 * `--verkada-api-key`: the Verkada API key.
   * **NOTE:** Alternatively, this value can be passed via the
     `VERKADA_API_KEY` environment variable (so that it is not visible
@@ -202,6 +206,8 @@ key and the Google credentials file.  For example:
 1. Under "Repository secrets", click "New repository secret".
    1. Create a secret named `VERKADA_API_KEY`.
    1. Paste in the Verkada API key.
+1. Repeat the procedure, pasting in the contents of the Google
+   Calendar ID.
 1. Repeat the procedure, pasting in the contents of the Google
    credentials file.
    1. It is recomended to store the base64-encoded version of your
