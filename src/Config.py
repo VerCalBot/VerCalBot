@@ -22,8 +22,6 @@ def read_config(args):
         'send emails': config.getboolean('General', 'send_emails'),
 
         # Google
-        'google calendar id': config.get('Google', 'calendar_id'),
-
         'color unlocked': config.getint('Google', 'color_unlocked'),
         'color locked': config.getint('Google', 'color_locked'),
         'color access_controlled': config.getint('Google', 'color_access_controlled'),
