@@ -208,6 +208,10 @@ def _explode_exceptions(config, exceptions):
     # Recurring event
     def _handle_recurring(config, event, output):
         def _handle_recurring_daily(config, event, start, end, until, output):
+            logging.debug("Exploding recurring daily event")
+            logging.debug(f"Start: {start}")
+            logging.debug(f"Until: {until}")
+
             current_date = start
             one_day = timedelta(days=1)
 
@@ -216,6 +220,7 @@ def _explode_exceptions(config, exceptions):
                 # skip it
                 if current_date.date() < config['first date'] or \
                    current_date.date() > config['last date']:
+                    current_date += one_day
                     continue
 
                 ed = event['recurrence_rule']['excluded_dates']
@@ -232,6 +237,8 @@ def _explode_exceptions(config, exceptions):
         #-------------------------------------------------
 
         def _handle_recurring_weekly(config, event, start, end, until, output):
+            logging.debug("Exploding recurring weekly event")
+
             current_date = start
             byDay = event["recurrence_rule"].get("by_day", [])
             if not byDay:
@@ -254,6 +261,8 @@ def _explode_exceptions(config, exceptions):
                     current_date += timedelta(days=(7 - (current_date - start).days % 7) % 7)
 
         #-------------------------------------------------
+
+        logging.debug("Exploding recurring event")
 
         start = datetime.combine(event['date'], event['start_time'])
         end = datetime.combine(event['date'], event['end_time'])
@@ -281,6 +290,8 @@ def _explode_exceptions(config, exceptions):
 
     # Non-recurring event
     def _handle_nonrecurring(config, event, output):
+        logging.debug("Exploding non-recurring event")
+
         # If the date is outside the range we care about, then don't
         # add it to our list
         if event['date'] < config['first date'] or \
