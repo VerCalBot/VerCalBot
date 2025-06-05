@@ -89,7 +89,8 @@ def add(verkada_event, service, args, config):
                             body=google_event).execute()
 
 def delete(google_event, service, args, config):
-    logging.info(f"Removing Google Calendar event: {google_event['summary']} / {google_event['description']}, starting {google_event['start']}")
+    desc = google_event.get('description', '')
+    logging.info(f"Removing Google Calendar event: {google_event['summary']} / {desc}, starting {google_event['start']}")
 
     service.events().delete(calendarId=args.google_calendar_id,
                             eventId=google_event["id"]).execute()
