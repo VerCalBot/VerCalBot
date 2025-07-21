@@ -65,19 +65,24 @@ anything.  Hence, it needs read-only permissions in its API key.
 
 In the Verkada Command dashboard, navigate to:
 
-1. Admin
+1. Login as Admin
 1. Settings
-1. API Management
+1. API & Integrations
+1. API Keys
 
-Generate a new API key with the following permissions:
+Click "+ Add" to create a new key:
 
-* Access Control: Read-Only
-* Door Access Management: All Selected
-* Core Command: Read-Only
-* Camera Devices: Read-Only
+* Name: Give it a reasonable name
+* Add 4 endpoints (as of March 2025):
+  1. Access Control: Read-Only
+  1. Door Access Management: All Selected
+  1. Core Command: Read-Only
+  1. Cameras: Read-Only
+* Select an expiration date
+* Click "Generate API"
 
-Save the API key somewhere safe; Verkada will never show you that
-value again.
+Save the API key somewhere safe; **Verkada will never show you that
+value again**.
 
 ### Google Cloud credentials
 
