@@ -87,7 +87,10 @@ def get_sites(session):
     output = {}
     for camera in cameras:
         site_id = camera['site_id']
-        if site_id not in output:
+        # It is possible for a camera to be not yet deployed, and
+        # therefore have its site_id be None (and no timezone).  So --
+        # skip those.
+        if site_id and site_id not in output:
             tz = zoneinfo.ZoneInfo(camera['timezone'])
             output[site_id] = tz
 
@@ -112,6 +115,15 @@ def get_doors(session, sites):
     # sites data.
     output = {}
     for door in all_doors:
+        # When this code was originally written (early 2025), the door
+        # objects did not contain timezones.  As of June 2025, doors
+        # now have a "timezone" attribute.  So we'll use that.  But on
+        # the off chance that they don't, fall back to the old method
+        # of getting the timezone from the site.
+        if 'timezone' in door:
+            door['PYTZ'] = zoneinfo.ZoneInfo(door['timezone'])
+            continue
+
         sid = door['site']['site_id']
         if sid in sites:
             # Use an upper case key so that we know we put it there

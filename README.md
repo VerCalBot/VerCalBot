@@ -78,6 +78,15 @@ Click "+ Add" to create a new key:
   1. Door Access Management: All Selected
   1. Core Command: Read-Only
   1. Cameras: Read-Only
+     * **NOTE:** VerCalBot needs read-only access to the cameras to
+       obtain site timezone information.  This was needed when the
+       code was originally written (early 2025), but the Verakda API
+       evolved and this is no longer necessary.  However, the code has
+       not yet been updated to *not* read the camera timezone
+       information.  At some point, that
+       read-the-timezone-from-the-cameras code will be removed.  But
+       until then, read-only camera access for the API key is still
+       necessary.
 * Select an expiration date
 * Click "Generate API"
 
