@@ -122,14 +122,14 @@ def get_doors(session, sites):
         # of getting the timezone from the site.
         if 'timezone' in door:
             door['PYTZ'] = zoneinfo.ZoneInfo(door['timezone'])
-            continue
+        else:
+            sid = door['site']['site_id']
+            if sid in sites:
+                # Use an upper case key so that we know we put it there
+                # (Vs. it being there in the original data we got from
+                # Verkada).
+                door['PYTZ'] = sites[sid]
 
-        sid = door['site']['site_id']
-        if sid in sites:
-            # Use an upper case key so that we know we put it there
-            # (Vs. it being there in the original data we got from
-            # Verkada).
-            door['PYTZ'] = sites[sid]
         output[door['door_id']] = door
 
     logging.debug("Transformed Verkada doors")
