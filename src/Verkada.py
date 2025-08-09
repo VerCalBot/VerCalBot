@@ -261,12 +261,18 @@ def _explode_exceptions(config, exceptions):
                 if current_date.weekday() in target_weekdays and current_date.date() > datetime.now().date():
                     ed = event['recurrence_rule']['excluded_dates']
                     if current_date.date() not in ed:
-                        item = {
-                            "door_status": event["door_status"],
-                            "start_time": current_date,
-                            "end_time": current_date.replace(hour=end.hour, minute=end.minute, second=end.second)
-                        }
-                        output.append(item)
+                        # If the date is outside the range we care
+                        # about, then skip it
+                        if current_date.date() < config['first date'] or \
+                           current_date.date() > config['last date']:
+                            pass
+                        else:
+                            item = {
+                                "door_status": event["door_status"],
+                                "start_time": current_date,
+                                "end_time": current_date.replace(hour=end.hour, minute=end.minute, second=end.second)
+                            }
+                            output.append(item)
 
                 current_date += timedelta(days=1)
                 if current_date.weekday() == 0 and current_date > start:
