@@ -275,8 +275,6 @@ def _explode_exceptions(config, exceptions):
                             output.append(item)
 
                 current_date += timedelta(days=1)
-                if current_date.weekday() == 0 and current_date > start:
-                    current_date += timedelta(days=(7 - (current_date - start).days % 7) % 7)
 
         #-------------------------------------------------
 
